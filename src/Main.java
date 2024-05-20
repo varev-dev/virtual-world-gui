@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Main extends JFrame {
     private World world;
+    private Human human;
 
     public Main() {
         setTitle("Virtual World Simulator - s198020");
@@ -23,14 +24,17 @@ public class Main extends JFrame {
                         JOptionPane.QUESTION_MESSAGE));
 
         world = new World(width, height);
+        human = new Human(width / 2, height / 2, world);
+        world.addOrganism(human, width / 2, height / 2);
+
         var factory = new AnimalFactory(world);
+        factory.fillBoardWithOrganisms();
+
+        add(world);
 
         JButton nextTurnButton = new JButton("Next turn");
         JTextArea textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
-
-        factory.fillBoardWithOrganisms();
-        add(world);
 
         scrollPane.setPreferredSize(new Dimension(400, this.getHeight() - nextTurnButton.getHeight()));
         add(scrollPane, BorderLayout.EAST);

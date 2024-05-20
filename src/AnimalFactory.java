@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class AnimalFactory {
-    private static final double ANIMALS_PERCENT = 0.5;
+    private static final double ANIMALS_PERCENT = 0.35;
     private World world;
 
     public AnimalFactory(World world) {
@@ -16,7 +16,7 @@ public class AnimalFactory {
         int animalId = 0;
         while (animalsToBeCreated > 0) {
             position = Position.generateRandomPosition(world);
-            animalId = generator.nextInt(3);
+            animalId = generator.nextInt(5);
 
             if (world.board[position.getY()][position.getX()] != null)
                 continue;
@@ -24,6 +24,8 @@ public class AnimalFactory {
             switch (animalId) {
                 case 1 -> organism = new Sheep(position.getX(), position.getY(), world);
                 case 2 -> organism = new Fox(position.getX(), position.getY(), world);
+                case 3 -> organism = new Turtle(position.getX(), position.getY(), world);
+                case 4 -> organism = new Antelope(position.getX(), position.getY(), world);
                 default -> organism = new Wolf(position.getX(), position.getY(), world);
             }
 
