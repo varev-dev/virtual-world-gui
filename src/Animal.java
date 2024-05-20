@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.Random;
 
-public class Animal extends Organism {
+public abstract class Animal extends Organism {
     protected boolean[] checked;
     public int moveSize = 1;
 
@@ -14,7 +14,7 @@ public class Animal extends Organism {
     public void action() {
         checked = new boolean[Direction.values().length];
         try {
-            Direction direction = getRandomPossibleDirection(true, true, Animal.class);
+            Direction direction = getRandomPossibleDirection(true, true);
             Position newPosition = Position.generatePosition(this, direction);
             Organism organism = world.board[newPosition.getY()][newPosition.getX()];
 
@@ -33,16 +33,21 @@ public class Animal extends Organism {
 
     @Override
     public void collision(Organism organism) {
+        String message = this.position.toString() + " ";
         if (this.strength > organism.strength) {
+            message += this + " ate " + organism;
             world.board[organism.position.getY()][organism.position.getX()] = null;
             world.organisms.remove(organism);
         } else {
+            message += organism + " ate " + this;
             world.board[position.getY()][position.getX()] = null;
             world.organisms.remove(this);
         }
+
+        world.messages.add(message);
     }
 
-    protected Direction getRandomPossibleDirection(boolean canBeOccupied, boolean canBeStronger, Class<?> parent) throws NoDirectionException, PositionException {
+    protected Direction getRandomPossibleDirection(boolean canBeOccupied, boolean canBeStronger) throws NoDirectionException, PositionException {
         var generator = new Random();
 
         while (!isEveryDirectionChecked(checked)) {
@@ -65,7 +70,7 @@ public class Animal extends Organism {
                 if (!canBeOccupied)
                     continue;
 
-                if (!canBeStronger && world.board[newPos.getY()][newPos.getX()].strength > this.strength && !parent.isInstance(this))
+                if (!canBeStronger && world.board[newPos.getY()][newPos.getX()].strength > this.strength)
                     continue;
             }
 

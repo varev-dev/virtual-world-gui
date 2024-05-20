@@ -10,7 +10,7 @@ public class Fox extends Animal {
         checked = new boolean[Direction.values().length];
 
         try {
-            Direction direction = getRandomPossibleDirection(true, false, Fox.class);
+            Direction direction = getRandomPossibleDirection(true, false);
             Position newPosition = Position.generatePosition(this, direction);
             Organism organism = world.board[newPosition.getY()][newPosition.getX()];
 
@@ -31,19 +31,24 @@ public class Fox extends Animal {
     public void collision(Organism organism) {
         if (organism instanceof Fox) {
             try {
-                Direction direction = getRandomPossibleDirection(false, false, Fox.class);
+                Direction direction = getRandomPossibleDirection(false, false);
                 Position pos = Position.generatePosition(this, direction);
 
                 if (position.compareTo(pos) == 0)
                     return;
 
                 world.addOrganism(new Fox(pos.getX(), pos.getY(), world), pos.getX(), pos.getY());
-                world.messages.add("Fox " + pos + " have just been born.");
+                world.messages.add(pos + " " + this + " have just been born.");
             } catch (Exception e) {
-                world.messages.add("Fox " + position + " cannot give birth.");
+                world.messages.add(position + " " + this + " cannot give birth.");
             }
+            return;
         }
+        super.collision(organism);
     }
 
-
+    @Override
+    public String toString() {
+        return "Fox";
+    }
 }

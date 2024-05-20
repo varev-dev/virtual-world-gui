@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class World extends JPanel {
-    int turn = 0;
+    int turn = 1;
     protected int width;
     protected int height;
     protected Organism[][] board;
@@ -30,17 +30,12 @@ public class World extends JPanel {
         messages.clear();
         messages.add("Current turn: " + this.turn);
         Collections.sort(organisms);
-        int lastTurnSize = organisms.size();
-        for (int i = 0; i < organisms.size();) {
-            Organism organism = organisms.get(i);
-            if (organism.actionDelay > 0)
-                organism.actionDelay--;
-            if (organism.actionDelay == 0)
+        List<Organism> copy = List.copyOf(organisms);
+        for (int i = 0; i < copy.size();) {
+            Organism organism = copy.get(i);
+            if (organisms.contains(organism))
                 organism.action();
-            if (lastTurnSize > organisms.size()) {
-                if (organism == organisms.get(i))
-                    i++;
-            }
+            i++;
         }
         turn++;
         repaint();

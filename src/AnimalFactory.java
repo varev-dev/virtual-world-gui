@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class AnimalFactory {
-    private static final double ANIMALS_PERCENT = 0.05;
+    private static final double ANIMALS_PERCENT = 0.5;
     private World world;
 
     public AnimalFactory(World world) {
@@ -26,6 +26,7 @@ public class AnimalFactory {
                 case 2 -> organism = new Fox(position.getX(), position.getY(), world);
                 default -> organism = new Wolf(position.getX(), position.getY(), world);
             }
+
             world.addOrganism(organism, position.getX(), position.getY());
             animalsToBeCreated--;
         }

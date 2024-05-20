@@ -9,17 +9,24 @@ public class Wolf extends Animal {
     public void collision(Organism organism) {
         if (organism instanceof Wolf) {
             try {
-                Direction direction = getRandomPossibleDirection(false, false, Wolf.class);
+                Direction direction = getRandomPossibleDirection(false, false);
                 Position pos = Position.generatePosition(this, direction);
 
                 if (position.compareTo(pos) == 0)
                     return;
 
                 world.addOrganism(new Wolf(pos.getX(), pos.getY(), world), pos.getX(), pos.getY());
-                world.messages.add("Wolf " + pos + " have just been born.");
+                world.messages.add(pos + " " + this + " have just been born.");
             } catch (Exception e) {
-                world.messages.add("Wolf " + position + " cannot give birth.");
+                world.messages.add(position + " " + this + " cannot give birth.");
             }
+            return;
         }
+        super.collision(organism);
+    }
+
+    @Override
+    public String toString() {
+        return "Wolf";
     }
 }
