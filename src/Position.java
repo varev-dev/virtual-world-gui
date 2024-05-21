@@ -12,22 +12,22 @@ public class Position implements Comparable<Position> {
     public String toString() {
         return "(x: " + x + "; y: " + y + ")";
     }
-    public static Position generatePosition(Animal animal, Direction direction) throws PositionException {
-        Position position = new Position(animal.position.x, animal.position.y);
+    public static Position generatePosition(Organism organism, Direction direction) throws PositionException {
+        Position position = new Position(organism.position.x, organism.position.y);
 
         if (direction.name().contains(Direction.WEST.name())) {
-            if (position.x - animal.moveSize >= 0) position.x -= animal.moveSize;
+            if (position.x - organism.moveSize >= 0) position.x -= organism.moveSize;
         } else if (direction.name().contains(Direction.EAST.name())) {
-            if (position.x + animal.moveSize < animal.world.width) position.x += animal.moveSize;
+            if (position.x + organism.moveSize < organism.world.width) position.x += organism.moveSize;
         }
 
         if (direction.name().contains(Direction.NORTH.name())) {
-            if (position.y - animal.moveSize >= 0) position.y -= animal.moveSize;
+            if (position.y - organism.moveSize >= 0) position.y -= organism.moveSize;
         } else if (direction.name().contains(Direction.SOUTH.name())) {
-            if (position.y + animal.moveSize < animal.world.height) position.y += animal.moveSize;
+            if (position.y + organism.moveSize < organism.world.height) position.y += organism.moveSize;
         }
 
-        if (position.x >= animal.world.width || position.x < 0 || position.y >= animal.world.height || position.y < 0)
+        if (position.x >= organism.world.width || position.x < 0 || position.y >= organism.world.height || position.y < 0)
             throw new PositionException("Unable to move further." + direction.name());
 
         return position;

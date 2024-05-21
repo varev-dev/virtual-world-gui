@@ -9,7 +9,8 @@ public class Human extends Animal {
     }
 
     public void useSkill() {
-        actionDelay = DELAY;
+        if (actionDelay == 0) actionDelay = DELAY;
+        else world.messages.add(this + " have to wait " + actionDelay + " more turns to use skill");
     }
 
     public void setDirection(Direction direction) {
@@ -19,6 +20,7 @@ public class Human extends Animal {
     @Override
     public void action() {
         try {
+            direction=super.getRandomPossibleDirection(true, true);
             Position newPos = Position.generatePosition(this, direction);
             Organism organism = world.board[newPos.getY()][newPos.getX()];
 
@@ -32,6 +34,8 @@ public class Human extends Animal {
             organism.collision(this);
         } catch (PositionException e) {
             world.messages.add(this + " tried to move out of the board.");
+        } catch (NoDirectionException e) {
+            world.messages.add(this + " have no direction to move.");
         }
     }
 

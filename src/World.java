@@ -33,8 +33,18 @@ public class World extends JPanel {
         List<Organism> copy = List.copyOf(organisms);
         for (int i = 0; i < copy.size();) {
             Organism organism = copy.get(i);
-            if (organisms.contains(organism))
-                organism.action();
+
+            if (!organisms.contains(organism)) {
+                i++;
+                continue;
+            }
+
+            if (organism.actionDelay > 0) {
+                organism.actionDelay--;
+                i++;
+                continue;
+            }
+            organism.action();
             i++;
         }
         turn++;

@@ -1,10 +1,10 @@
 import java.util.Random;
 
-public class AnimalFactory {
+public class OrganismFactory {
     private static final double ANIMALS_PERCENT = 0.35;
     private World world;
 
-    public AnimalFactory(World world) {
+    public OrganismFactory(World world) {
         this.world = world;
     }
 
@@ -32,5 +32,13 @@ public class AnimalFactory {
             world.addOrganism(organism, position.getX(), position.getY());
             animalsToBeCreated--;
         }
+    }
+
+    public Plant createNewPlantWithType(Plant plant, Position position) throws Exception {
+        if (plant instanceof Guarana) {
+            return new Guarana(position.getX(), position.getY(), plant.world);
+        }
+
+        throw new Exception("");
     }
 }

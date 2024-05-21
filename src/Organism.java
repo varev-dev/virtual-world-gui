@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Organism implements Comparable<Organism> {
     static final int DELAY = 5;
@@ -9,6 +10,8 @@ public abstract class Organism implements Comparable<Organism> {
     protected int age;
     protected World world;
     protected Color color;
+    protected boolean[] checked;
+    protected int moveSize=1;
 
     public Organism(int x, int y, int strength, int initiative, World world, Color color) {
         position = new Position(x, y);
@@ -35,5 +38,44 @@ public abstract class Organism implements Comparable<Organism> {
             return organism.initiative - this.initiative;
 
         return organism.age - this.age;
+    }
+
+    protected Direction getRandomPossibleDirection(boolean canBeOccupied, boolean canBeStronger) throws NoDirectionException, PositionException {
+        var generator = new Random();
+
+        while (!isEveryDirectionChecked(checked)) {
+            int random = generator.nextInt(8);
+
+            if (checked[random]) continue;
+            checked[random] = true;
+
+            Position newPos;
+            try {
+                newPos = Position.generatePosition(this, Direction.values()[random]);
+            } catch (PositionException e) {
+                continue;
+            }
+
+            if (position.compareTo(newPos) == 0)
+                continue;
+
+            if (world.board[newPos.getY()][newPos.getX()] != null) {
+                if (!canBeOccupied)
+                    continue;
+
+                if (!canBeStronger && world.board[newPos.getY()][newPos.getX()].strength > this.strength)
+                    continue;
+            }
+
+            return Direction.values()[random];
+        }
+
+        throw new NoDirectionException("No possible moves");
+    }
+
+    private boolean isEveryDirectionChecked(boolean[] checked) {
+        for (boolean b : checked)
+            if (!b) return false;
+        return true;
     }
 }
