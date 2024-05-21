@@ -1,14 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Main extends JFrame {
     private World world;
     private Human human;
+    private final JTextArea textArea;
 
     public Main() {
         setTitle("Virtual World Simulator - s198020");
         setSize(1200, 800);
+        setLocationRelativeTo(null);
+        setFocusable(true);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton nextTurnButton = new JButton("Next turn");
@@ -21,7 +26,7 @@ public class Main extends JFrame {
         buttonPanel.add(saveButton);
         buttonPanel.add(loadButton);
         buttonPanel.add(skillButton);
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
 
         scrollPane.setPreferredSize(new Dimension(400, this.getHeight() - buttonPanel.getHeight() - skillButton.getHeight()));
@@ -33,19 +38,48 @@ public class Main extends JFrame {
         add(sidePanel, BorderLayout.EAST);
 
         nextTurnButton.addActionListener(
-                e -> {
-                    if (world == null)
-                        return;
-                    world.makeTurn();
-                    repaint();
-                    for (String message : world.messages) {
-                        textArea.append(message + "\n");
-                    }
-                    world.messages = new ArrayList<>();
-                }
+                e -> makeTurn()
         );
 
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (world == null || human == null)
+                    return;
+
+                Direction direction = Direction.getByKey(e.getKeyChar());
+
+                if (direction != null) {
+                    human.setDirection(direction);
+                    makeTurn();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                human.setDirection(null);
+            }
+        });
+
+        addWindowFocusListener(new java.awt.event.WindowAdapter() {
+            public void windowGainedFocus(java.awt.event.WindowEvent e) {
+                requestFocusInWindow();
+            }
+        });
+
         resetButton.addActionListener(e -> {confWorld(); textArea.setText("");});
+    }
+
+    void makeTurn() {
+        if (world == null)
+            return;
+        world.makeTurn();
+        repaint();
+        for (String message : world.messages) {
+            textArea.append(message + "\n");
+        }
+        world.messages = new ArrayList<>();
+        setFocusable(true);
     }
 
     void confWorld() {
@@ -83,4 +117,5 @@ public class Main extends JFrame {
             frame.setVisible(true);
         });
     }
+
 }

@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.util.Random;
 
 public abstract class Animal extends Organism {
 
@@ -39,10 +38,10 @@ public abstract class Animal extends Organism {
         } else {
             message += organism + " ate " + this;
             world.board[organism.position.getY()][organism.position.getX()] = null;
+            organism.position = position;
             world.board[position.getY()][position.getX()] = organism;
             world.organisms.remove(this);
         }
-
         world.messages.add(message);
     }
 }

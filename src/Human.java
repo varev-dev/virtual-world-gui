@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class Human extends Animal {
-
     private Direction direction;
 
     public Human(int x, int y, World world) {
@@ -20,7 +19,9 @@ public class Human extends Animal {
     @Override
     public void action() {
         try {
-            direction=super.getRandomPossibleDirection(true, true);
+            if (direction == null)
+                return;
+
             Position newPos = Position.generatePosition(this, direction);
             Organism organism = world.board[newPos.getY()][newPos.getX()];
 
@@ -34,14 +35,12 @@ public class Human extends Animal {
             organism.collision(this);
         } catch (PositionException e) {
             world.messages.add(this + " tried to move out of the board.");
-        } catch (NoDirectionException e) {
-            world.messages.add(this + " have no direction to move.");
         }
     }
 
     @Override
     public void collision(Organism organism) {
-        if (actionDelay == 0) super.collision(organism);
+        if (actionDelay == 0) {super.collision(organism);}
         else world.messages.add(this + " survive " + organism + " attack because of special ability");
     }
 
