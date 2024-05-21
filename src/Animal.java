@@ -38,7 +38,8 @@ public abstract class Animal extends Organism {
             world.organisms.remove(organism);
         } else {
             message += organism + " ate " + this;
-            world.board[position.getY()][position.getX()] = null;
+            world.board[organism.position.getY()][organism.position.getX()] = null;
+            world.board[position.getY()][position.getX()] = organism;
             world.organisms.remove(this);
         }
 

@@ -24,9 +24,12 @@ public class Plant extends Organism {
 
     @Override
     public void collision(Organism organism) {
-        world.organisms.remove(this);
+        world.messages.add(organism + " ate " + this);
+
         world.board[organism.position.getY()][organism.position.getX()] = null;
         world.board[position.getY()][position.getX()] = organism;
+
+        world.organisms.remove(this);
     }
 
 }

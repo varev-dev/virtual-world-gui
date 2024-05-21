@@ -13,4 +13,8 @@ public class Guarana extends Plant {
         super.collision(organism);
     }
 
+    @Override
+    public String toString() {
+        return "Guarana";
+    }
 }

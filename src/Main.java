@@ -10,8 +10,6 @@ public class Main extends JFrame {
         setTitle("Virtual World Simulator - s198020");
         setSize(1200, 800);
 
-        confWorld();
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton nextTurnButton = new JButton("Next turn");
         JButton saveButton = new JButton("Save");
@@ -36,7 +34,10 @@ public class Main extends JFrame {
 
         nextTurnButton.addActionListener(
                 e -> {
+                    if (world == null)
+                        return;
                     world.makeTurn();
+                    repaint();
                     for (String message : world.messages) {
                         textArea.append(message + "\n");
                     }
