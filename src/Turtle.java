@@ -32,9 +32,10 @@ public class Turtle extends Animal {
             return;
         }
 
-        if (organism.strength < 5)
+        if (organism.strength < 5) {
+            world.messages.add(this + " deflects " + organism + " attack");
             return;
-
+        }
         super.collision(organism);
     }
 
