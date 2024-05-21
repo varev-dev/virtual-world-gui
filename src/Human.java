@@ -8,7 +8,10 @@ public class Human extends Animal {
     }
 
     public void useSkill() {
-        if (actionDelay == 0) actionDelay = DELAY;
+        if (actionDelay == 0) {
+            actionDelay = DELAY;
+            world.messages.add(this + " is now Immortal");
+        }
         else world.messages.add(this + " have to wait " + actionDelay + " more turns to use skill");
     }
 
@@ -23,6 +26,10 @@ public class Human extends Animal {
                 return;
 
             Position newPos = Position.generatePosition(this, direction);
+
+            if (newPos.compareTo(position) == 0)
+                return;
+
             Organism organism = world.board[newPos.getY()][newPos.getX()];
 
             if (organism == null) {

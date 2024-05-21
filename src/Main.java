@@ -38,13 +38,27 @@ public class Main extends JFrame {
         add(sidePanel, BorderLayout.EAST);
 
         nextTurnButton.addActionListener(
-                e -> makeTurn()
+                e -> {
+                    makeTurn();
+                    requestFocusInWindow();
+                }
+        );
+
+        skillButton.addActionListener(
+                e ->  {
+                    human.useSkill();
+                    textArea.append(world.messages.get(world.messages.size() - 1) + "\n");
+                    requestFocusInWindow();
+                }
         );
 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (world == null || human == null)
+                    return;
+
+                if (!world.organisms.contains(human))
                     return;
 
                 Direction direction = Direction.getByKey(e.getKeyChar());
@@ -67,7 +81,11 @@ public class Main extends JFrame {
             }
         });
 
-        resetButton.addActionListener(e -> {confWorld(); textArea.setText("");});
+        resetButton.addActionListener(e -> {
+            confWorld();
+            textArea.setText("");
+            requestFocusInWindow();
+        });
     }
 
     void makeTurn() {
@@ -79,7 +97,6 @@ public class Main extends JFrame {
             textArea.append(message + "\n");
         }
         world.messages = new ArrayList<>();
-        setFocusable(true);
     }
 
     void confWorld() {
