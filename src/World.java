@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class World extends JPanel {
+    static final int FIELD_SIZE = 20;
     int turn = 1;
     protected int width;
     protected int height;
@@ -18,7 +21,30 @@ public class World extends JPanel {
         this.board = new Organism[height][width];
         this.organisms = new ArrayList<>();
         this.messages = new ArrayList<>();
-        setPreferredSize(new Dimension(width * 20, height * 20));
+        setPreferredSize(new Dimension(width * FIELD_SIZE, height * FIELD_SIZE));
+
+        World world = this;
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX() / FIELD_SIZE;
+                int y = e.getY() / FIELD_SIZE;
+
+                if (board[y][x] != null)
+                    return;
+
+                String[] items = {"Wolf", "Sheep", "Antelope", "Turtle", "Fox"};
+
+                String selectedItem = (String) JOptionPane.showInputDialog(
+                        getParent(), "Select an animal:", "Selection",
+                        JOptionPane.PLAIN_MESSAGE, null, items, items[0]
+                );
+
+                board[y][x] = new Wolf(x, y, world);
+                organisms.add(board[y][x]);
+                repaint();
+            }
+        });
     }
 
     public void addOrganism(Organism organism, int x, int y) {
