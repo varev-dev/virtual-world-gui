@@ -69,4 +69,21 @@ public class OrganismFactory {
 
         throw new Exception("");
     }
+
+    public Organism createOrganismByName(Position position, String name) {
+        Organism organism = null;
+        switch (name) {
+            case "Sheep" -> organism = new Sheep(position.getX(), position.getY(), world);
+            case "Fox" -> organism = new Fox(position.getX(), position.getY(), world);
+            case "Turtle" -> organism = new Turtle(position.getX(), position.getY(), world);
+            case "Antelope" -> organism = new Antelope(position.getX(), position.getY(), world);
+            case "Wolf" -> organism = new Wolf(position.getX(), position.getY(), world);
+            case "Grass" -> organism = new Grass(position.getX(), position.getY(), world);
+            case "Sonchus" -> organism = new Sonchus(position.getX(), position.getY(), world);
+            case "Hogweed" -> organism = new Hogweed(position.getX(), position.getY(), world);
+            case "Belladonna" -> organism = new Belladonna(position.getX(), position.getY(), world);
+            case "Guarana" -> organism = new Guarana(position.getX(), position.getY(), world);
+        }
+        return organism;
+    }
 }

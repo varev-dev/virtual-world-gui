@@ -34,14 +34,17 @@ public class World extends JPanel implements Serializable {
                 if (board[y][x] != null)
                     return;
 
-                String[] items = {"Wolf", "Sheep", "Antelope", "Turtle", "Fox"};
+                String[] items = {"Wolf", "Sheep", "Antelope", "Turtle", "Fox", "Hogweed", "Guarana", "Grass", "Sonchus", "Belladonna"};
 
                 String selectedItem = (String) JOptionPane.showInputDialog(
                         getParent(), "Select an animal:", "Selection",
                         JOptionPane.PLAIN_MESSAGE, null, items, items[0]
                 );
 
-                board[y][x] = new Wolf(x, y, world);
+                OrganismFactory factory = new OrganismFactory(world);
+                Organism organism = factory.createOrganismByName(new Position(x, y), selectedItem);
+
+                board[y][x] = organism;
                 organisms.add(board[y][x]);
                 repaint();
             }
