@@ -36,7 +36,7 @@ public class OrganismFactory {
 
         var plantsToBeCreated = (int) (world.height * world.width * PLANTS_PERCENT);
 
-        /*while (plantsToBeCreated > 0) {
+        while (plantsToBeCreated > 0) {
             position = Position.generateRandomPosition(world);
             int plantId = generator.nextInt(5);
 
@@ -53,7 +53,7 @@ public class OrganismFactory {
 
             world.addOrganism(organism, position.getX(), position.getY());
             plantsToBeCreated--;
-        }*/
+        }
     }
 
     public Plant createNewPlantWithType(Plant plant, Position position) throws Exception {

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Main extends JFrame {
@@ -49,6 +50,43 @@ public class Main extends JFrame {
                     human.useSkill();
                     textArea.append(world.messages.get(world.messages.size() - 1) + "\n");
                     requestFocusInWindow();
+                }
+        );
+
+        saveButton.addActionListener(
+                e -> {
+                    if (world == null)
+                        return;
+
+                    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save"))) {
+                        oos.writeObject(world);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(this,
+                                "Error occurred while saving game. " + ex.getMessage(),
+                                "Save Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+        );
+
+        loadButton.addActionListener(
+                e -> {
+                    remove(world);
+                    world = null;
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("save"))) {
+                        world = (World) ois.readObject();
+                        for (Organism organism : world.organisms) {
+                            if (organism instanceof Human) {
+                                human = (Human) organism;
+                            }
+                        }
+                        add(world);
+                        revalidate();
+                        world.repaint();
+                    } catch (IOException | ClassNotFoundException ex) {
+                        JOptionPane.showMessageDialog(this,
+                                "Error loading game state: " + ex.getMessage(),
+                                "Save Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
         );
 

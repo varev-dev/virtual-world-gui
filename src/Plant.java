@@ -27,6 +27,7 @@ public class Plant extends Organism {
         world.messages.add(organism + " ate " + this);
 
         world.board[organism.position.getY()][organism.position.getX()] = null;
+        organism.position = position;
         world.board[position.getY()][position.getX()] = organism;
 
         world.organisms.remove(this);

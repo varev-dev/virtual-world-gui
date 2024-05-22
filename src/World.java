@@ -2,11 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class World extends JPanel {
+public class World extends JPanel implements Serializable {
     static final int FIELD_SIZE = 20;
     int turn = 1;
     protected int width;

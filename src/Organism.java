@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
-public abstract class Organism implements Comparable<Organism> {
+public abstract class Organism implements Comparable<Organism>, Serializable {
     static final int DELAY = 5;
     protected int actionDelay = 0;
     protected Position position;

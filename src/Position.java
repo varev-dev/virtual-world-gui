@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Random;
 
-public class Position implements Comparable<Position> {
+public class Position implements Comparable<Position>, Serializable {
     private int x, y;
 
     public Position(int x, int y) {
