@@ -9,6 +9,8 @@ public class Belladonna extends Plant {
     public void collision(Organism organism) {
         if (!(organism instanceof Animal))
             return;
+
+        world.messages.add(organism + " ate " + this + " and died.");
         world.board[organism.position.getY()][organism.position.getX()] = null;
         world.board[position.getY()][position.getX()] = null;
         world.organisms.remove(organism);

@@ -1,8 +1,8 @@
 import java.util.Random;
 
 public class OrganismFactory {
-    private final double ANIMALS_PERCENT = 0.2;
-    private final double PLANTS_PERCENT = 0.3;
+    private final double ANIMALS_PERCENT = 0.1;
+    private final double PLANTS_PERCENT = 0.15;
     private World world;
 
     public OrganismFactory(World world) {

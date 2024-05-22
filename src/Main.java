@@ -29,7 +29,6 @@ public class Main extends JFrame {
         buttonPanel.add(skillButton);
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
-
         scrollPane.setPreferredSize(new Dimension(400, this.getHeight() - buttonPanel.getHeight() - skillButton.getHeight()));
 
         JPanel sidePanel = new JPanel();
@@ -57,8 +56,8 @@ public class Main extends JFrame {
                 e -> {
                     if (world == null)
                         return;
-
-                    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("save"))) {
+                    String fileName = JOptionPane.showInputDialog(this, "Enter file name:", "File Name Input", JOptionPane.PLAIN_MESSAGE);
+                    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
                         oos.writeObject(world);
                     } catch (IOException ex) {
                         JOptionPane.showMessageDialog(this,
@@ -72,7 +71,8 @@ public class Main extends JFrame {
                 e -> {
                     remove(world);
                     world = null;
-                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("save"))) {
+                    String fileName = JOptionPane.showInputDialog(this, "Enter file name:", "File Name Input", JOptionPane.PLAIN_MESSAGE);
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
                         world = (World) ois.readObject();
                         for (Organism organism : world.organisms) {
                             if (organism instanceof Human) {
